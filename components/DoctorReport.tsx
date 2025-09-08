@@ -112,7 +112,7 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
         </Button>
       </div>
 
-      <div className="flex-grow overflow-y-hidden bg-white rounded-2xl border-2 border-slate-200 p-4 sm:p-6 lg:p-8 shadow-inner-soft">
+      <div className="flex-grow overflow-y-auto bg-white rounded-2xl border-2 border-slate-200 p-4 sm:p-6 lg:p-8 shadow-inner-soft">
         <div id="doctor-report-content" className="space-y-8">
           <div className="text-center border-b pb-4">
             <h1 className="text-2xl font-bold text-slate-800">{routineTitle}</h1>

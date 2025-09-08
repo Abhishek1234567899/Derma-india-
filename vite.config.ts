@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       preview: {
-        allowedHosts: ['derma-india.onrender.com']
+        allowedHosts: ['derma-india-vgq8.onrender.com']
       }
     };
 });

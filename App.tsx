@@ -198,8 +198,8 @@ const App: React.FC = () => {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      {/* NOTE: no top padding needed; header is sticky and takes its own space */}
-      <div className="w-full h-screen flex flex-col lg:pt-0">
+      {/* Page scroll locked; header fixed; main has no scrolling */}
+      <div className="w-full h-screen flex flex-col">
         <Header
           onReset={resetState}
           onCartClick={() => setIsCartOpen(true)}
@@ -207,7 +207,7 @@ const App: React.FC = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        <main className={`w-full flex-grow overflow-y-auto flex items-start justify-center px-2 sm:px-3 md:px-4 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
+        <main className={`w-full flex-grow overflow-hidden flex items-start justify-center px-2 sm:px-3 md:px-4 pt-16 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
           <div className="w-full h-full transition-all duration-300">
             {step === 4 ? (
               renderStep()

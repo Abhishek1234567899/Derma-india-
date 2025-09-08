@@ -291,7 +291,7 @@ const Report: React.FC<ReportProps> = ({
 
   return (
     <div className="animate-fade-in-up h-full flex flex-col w-full">
-      <div id="report-content-wrapper" className="flex-grow overflow-y-auto bg-slate-50/80 rounded-2xl">
+      <div id="report-content-wrapper" className="flex-grow overflow-y-hidden bg-slate-50/80 rounded-2xl">
           <div id="report-content" className="p-4 sm:p-6 lg:p-8 space-y-12">
               <div className="text-center">
                   <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900">{routineTitle}</h1>

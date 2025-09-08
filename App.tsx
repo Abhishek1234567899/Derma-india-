@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage, FaceImage, CartItem, RoutineStep, AlternativeProduct } from './types';
 import Step1PastProducts from './components/Step1PastProducts';
@@ -74,7 +73,7 @@ const App: React.FC = () => {
           cartMap.set(newItem.productId, newItem);
         }
       });
-      
+
       return newCart;
     });
   };
@@ -82,7 +81,7 @@ const App: React.FC = () => {
   const handleRemoveFromCart = (productId: string) => {
     setCart(prevCart => prevCart.filter(item => item.productId !== productId));
   };
-  
+
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
       handleRemoveFromCart(productId);
@@ -161,17 +160,17 @@ const App: React.FC = () => {
             skincareGoals={skincareGoals}
           />
         );
-       case 6:
+      case 6:
         return (
-            <ChatbotPage
-                analysisResult={analysisResult}
-                skincareGoals={skincareGoals}
-                recommendation={recommendation}
-                chatHistory={chatHistory}
-                setChatHistory={setChatHistory}
-                onBack={handlePrevStep}
-                onReset={resetState}
-            />
+          <ChatbotPage
+            analysisResult={analysisResult}
+            skincareGoals={skincareGoals}
+            recommendation={recommendation}
+            chatHistory={chatHistory}
+            setChatHistory={setChatHistory}
+            onBack={handlePrevStep}
+            onReset={resetState}
+          />
         );
       default:
         return <p>Invalid Step</p>;
@@ -182,41 +181,46 @@ const App: React.FC = () => {
 
   return (
     <div className="w-full h-screen overflow-hidden lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
-       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden" 
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         ></div>
       )}
-      <Sidebar 
-        currentStep={step} 
-        onReset={resetState} 
-        onCartClick={() => setIsCartOpen(true)} 
+
+      <Sidebar
+        currentStep={step}
+        onReset={resetState}
+        onCartClick={() => setIsCartOpen(true)}
         cartItemCount={totalCartItems}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="w-full h-screen flex flex-col pt-20 lg:pt-0">
-        <Header 
-            onReset={resetState} 
-            onCartClick={() => setIsCartOpen(true)} 
-            cartItemCount={totalCartItems} 
-            onMenuClick={() => setIsSidebarOpen(true)}
+
+      {/* NOTE: no top padding needed; header is sticky and takes its own space */}
+      <div className="w-full h-screen flex flex-col lg:pt-0">
+        <Header
+          onReset={resetState}
+          onCartClick={() => setIsCartOpen(true)}
+          cartItemCount={totalCartItems}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className={`w-full flex-grow overflow-y-auto flex items-start justify-center px-2 sm:px-3 md:px-4 pt-16 sm:pt-20 md:pt-24 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
-            <div className="w-full h-full transition-all duration-300">
-                {step === 4 ? (
-                  renderStep()
-                ) : (
-                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
-                    {renderStep()}
-                  </div>
-                )}
-            </div>
+
+        <main className={`w-full flex-grow overflow-y-auto flex items-start justify-center px-2 sm:px-3 md:px-4 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
+          <div className="w-full h-full transition-all duration-300">
+            {step === 4 ? (
+              renderStep()
+            ) : (
+              <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
+                {renderStep()}
+              </div>
+            )}
+          </div>
         </main>
       </div>
-       <CartDrawer
+
+      <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cartItems={cart}

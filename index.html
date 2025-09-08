@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Skincare Advisor</title>
 
-    <!-- Keep anchor jumps visible under sticky header -->
-    <style> html { scroll-padding-top: 64px; } /* 64px = h-16 */ </style>
+    <!-- GLOBAL SCROLL LOCK -->
+    <style>
+      html, body, #root { height: 100%; overflow: hidden; }
+      /* header height compensation when using anchor links (optional) */
+      html { scroll-padding-top: 64px; } /* 64px = Tailwind h-16 */
+    </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

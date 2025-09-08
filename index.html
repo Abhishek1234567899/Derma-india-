@@ -5,57 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Skincare Advisor</title>
 
-    <!-- Page scroll lock + full-height root -->
+    <!-- Lock page scroll + full-height root -->
     <style>
       html, body, #root { height: 100dvh; overflow: hidden; }
       @supports not (height: 100dvh) {
         html, body, #root { height: 100vh; overflow: hidden; }
       }
+      /* default fallbacks; will be auto-updated by script below */
+      :root { --header-h: 64px; }
+      @media (min-width:640px){ :root{ --header-h: 80px; } }
+      @media (min-width:768px){ :root{ --header-h: 96px; } }
     </style>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+    <!-- Tailwind (keep your existing config/colors) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            fontFamily: { sans: ['Inter', 'sans-serif'] },
+            fontFamily: { sans: ['Inter','sans-serif'] },
             colors: {
-              'brand-primary': { DEFAULT: '#2563eb', hover: '#1d4ed8', light: '#3b82f6' },
-              'brand-secondary': '#db2777',
-              'brand-text-main': '#1e293b',
-              'brand-text-muted': '#64748b',
-              'brand-text-inverted': '#cbd5e1',
-              'brand-bg': '#f1f5f9',
-              'brand-surface': '#ffffff',
-              'brand-dark': '#0f172a',
+              'brand-primary': { DEFAULT:'#2563eb', hover:'#1d4ed8', light:'#3b82f6' },
+              'brand-secondary':'#db2777',
+              'brand-text-main':'#1e293b',
+              'brand-text-muted':'#64748b',
+              'brand-text-inverted':'#cbd5e1',
+              'brand-bg':'#f1f5f9',
+              'brand-surface':'#ffffff',
+              'brand-dark':'#0f172a',
             },
             boxShadow: {
-              'soft': '0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05)',
-              'lifted': '0 10px 15px -3px rgba(15,23,42,0.07), 0 4px 6px -4px rgba(15,23,42,0.07)',
-              'interactive': '0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06)',
-              'interactive-hover': '0 10px 15px -3px rgba(37,99,235,0.15), 0 4px 6px -4px rgba(37,99,235,0.15)',
-              'inner-soft': 'inset 0 2px 4px 0 rgba(0,0,0,0.05)',
-              'glow-primary': '0 0 20px rgba(59,130,246,0.5)',
+              soft:'0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -2px rgba(0,0,0,.05)',
+              lifted:'0 10px 15px -3px rgba(15,23,42,.07),0 4px 6px -4px rgba(15,23,42,.07)',
+              interactive:'0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)',
+              'interactive-hover':'0 10px 15px -3px rgba(37,99,235,.15),0 4px 6px -4px rgba(37,99,235,.15)',
+              'inner-soft':'inset 0 2px 4px 0 rgba(0,0,0,.05)',
+              'glow-primary':'0 0 20px rgba(59,130,246,.5)',
             },
-            keyframes: {
-              'fade-in-up': { '0%': { opacity: 0, transform: 'translateY(10px) scale(0.98)' }, '100%': { opacity: 1, transform: 'translateY(0) scale(1)' } },
-              'aurora': { from: { backgroundPosition: '50% 50%, 50% 50%' }, to: { backgroundPosition: '350% 50%, 350% 50%' } },
-              'pulse-glow': { '0%,100%': { transform: 'scale(1)', boxShadow: '0 0 0 0 rgba(59,130,246,0.7)' }, '50%': { transform: 'scale(1.05)', boxShadow: '0 0 0 10px rgba(59,130,246,0)' } },
-              'scan-line': { '0%,100%': { top: '-10%' }, '50%': { top: '110%' } },
-              'pulse-soft-blue': { '0%,100%': { boxShadow: '0 0 15px 5px rgba(59,130,246,0.2), inset 0 0 10px 2px rgba(59,130,246,0.1)' }, '50%': { boxShadow: '0 0 25px 10px rgba(59,130,246,0.3), inset 0 0 15px 4px rgba(59,130,246,0.2)' } }
-            },
-            animation: {
-              'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
-              'aurora': 'aurora 60s linear infinite',
-              'pulse-glow': 'pulse-glow 2s infinite cubic-bezier(0.4,0,0.6,1)',
-              'scan-line': 'scan-line 2.5s ease-in-out infinite',
-              'pulse-soft-blue': 'pulse-soft-blue 2s infinite ease-in-out',
-            },
-            backgroundImage: { 'aurora-gradient': "radial-gradient(125% 125% at 50% 10%, #0f172a 40%, #2563eb 100%)" }
           }
         }
       }
@@ -77,6 +63,23 @@
   </head>
   <body class="bg-brand-bg font-sans text-brand-text-main overflow-hidden">
     <div id="root"></div>
+
+    <!-- Auto-sync --header-h to actual header height (0 when hidden on lg) -->
+    <script>
+      (function () {
+        const pickHeader = () => document.querySelector('header[data-app-header]');
+        const apply = () => {
+          const el = pickHeader();
+          const h = el ? el.getBoundingClientRect().height : 0;
+          document.documentElement.style.setProperty('--header-h', h + 'px');
+        };
+        const ro = new ResizeObserver(apply);
+        ro.observe(document.documentElement);
+        window.addEventListener('load', apply);
+        window.addEventListener('orientationchange', apply);
+      })();
+    </script>
+
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

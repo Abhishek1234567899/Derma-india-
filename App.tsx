@@ -181,14 +181,15 @@ const App: React.FC = () => {
   const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="w-full h-screen overflow-hidden lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
-       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden" 
-          onClick={() => setIsSidebarOpen(false)}
-          aria-hidden="true"
-        ></div>
-      )}
+    <div className="w-full h-screen overflow-hidden bg-brand-bg">
+      {/* Header - always fixed */}
+      <Header 
+        onReset={resetState} 
+        onCartClick={() => setIsCartOpen(true)} 
+        cartItemCount={totalCartItems} 
+        onMenuClick={() => setIsSidebarOpen(true)}
+      />
+      {/* Sidebar - fixed position */}
       <Sidebar 
         currentStep={step} 
         onReset={resetState} 
@@ -197,32 +198,31 @@ const App: React.FC = () => {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="w-full h-screen flex flex-col pt-20 lg:pt-0">
-        <Header 
-            onReset={resetState} 
-            onCartClick={() => setIsCartOpen(true)} 
-            cartItemCount={totalCartItems} 
-            onMenuClick={() => setIsSidebarOpen(true)}
-        />
-        <main className={`w-full flex-grow overflow-y-auto flex items-start justify-center px-2 sm:px-3 md:px-4 pt-16 sm:pt-20 md:pt-24 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
-            <div className="w-full h-full transition-all duration-300">
-                {step === 4 ? (
-                  renderStep()
-                ) : (
-                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
-                    {renderStep()}
-                  </div>
-                )}
-            </div>
+      {/* Main content - fixed below header, no scroll */}
+      <div className="fixed top-20 left-0 w-full h-[calc(100vh-5rem)] z-10 flex flex-col items-center justify-center">
+        <main className="w-full h-full flex items-center justify-center px-2 sm:px-3 md:px-4">
+          <div className="w-full h-full flex flex-col items-center justify-center">
+            {/* Render steps/components here */}
+            {renderStep()}
+          </div>
         </main>
       </div>
-       <CartDrawer
+      {/* Cart Drawer */}
+      <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cartItems={cart}
         onRemove={handleRemoveFromCart}
         onUpdateQuantity={handleUpdateQuantity}
       />
+      {/* Overlay for sidebar (if open) */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 z-40" 
+          onClick={() => setIsSidebarOpen(false)}
+          aria-hidden="true"
+        ></div>
+      )}
     </div>
   );
 };

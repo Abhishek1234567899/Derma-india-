@@ -11,22 +11,22 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onReset, onCartClick, cartItemCount, onMenuClick }) => {
   return (
-    <header className="w-full mx-auto h-12 px-3 flex items-center justify-between lg:hidden fixed top-0 left-0 right-0 bg-white z-50 shadow-sm border-b border-slate-200">
-      <div className="flex items-center gap-1.5">
+    <header className="w-full mx-auto h-14 px-3 flex items-center justify-between lg:hidden fixed top-0 left-0 right-0 bg-white z-50 shadow-sm border-b border-slate-200">
+      <div className="flex items-center gap-2">
         <button
           onClick={onMenuClick}
-          className="p-1 rounded-full hover:bg-black/10 transition-colors"
+          className="p-1.5 rounded-full hover:bg-black/10 transition-colors"
           aria-label="Open menu"
         >
           <MenuIcon className="w-5 h-5 text-brand-text-muted" />
         </button>
         <a href="https://dermatics.in" target="_blank" rel="noopener noreferrer">
-          <CompanyLogo className="w-16 h-auto" />
+          <CompanyLogo className="w-20 h-auto" />
         </a>
       </div>
 
-      <div className="flex items-center gap-1.5">
-        <Button onClick={onReset} variant="secondary" size="sm" className="gap-1 px-2 py-1">
+      <div className="flex items-center gap-2">
+        <Button onClick={onReset} variant="secondary" size="sm" className="gap-1 px-2.5 py-1.5">
           <RefreshCw className="w-4 h-4" />
           <span className="text-sm">Reset</span>
         </Button>
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ onReset, onCartClick, cartItemCount, on
           title="Visit Dermatics.in"
           variant="secondary"
           size="sm"
-          className="relative !rounded-full !p-1.5"
+          className="relative !rounded-full !p-2"
         >
           <ExternalLinkIcon className="w-5 h-5" />
         </Button>
@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ onReset, onCartClick, cartItemCount, on
           onClick={onCartClick}
           variant="secondary"
           size="sm"
-          className="relative !rounded-full !p-1.5"
+          className="relative !rounded-full !p-2"
         >
           <ShoppingCartIcon className="w-5 h-5" />
           {cartItemCount > 0 && (

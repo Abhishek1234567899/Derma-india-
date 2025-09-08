@@ -1,5 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage, FaceImage, CartItem, RoutineStep, AlternativeProduct } from './types';
+import {
+  PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage,
+  FaceImage, CartItem, RoutineStep, AlternativeProduct
+} from './types';
 import Step1PastProducts from './components/Step1PastProducts';
 import Step2FaceAnalysis from './components/Step2FaceAnalysis';
 import Step3Goals from './components/Step3Goals';
@@ -45,65 +48,60 @@ const App: React.FC = () => {
 
   const handleAddToCart = (product: RoutineStep | AlternativeProduct) => {
     setCart(prevCart => {
-      const existingItem = prevCart.find(item => item.productId === product.productId);
-      if (existingItem) {
-        return prevCart.map(item =>
-          item.productId === product.productId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
+      const existing = prevCart.find(i => i.productId === product.productId);
+      if (existing) {
+        return prevCart.map(i => i.productId === product.productId ? { ...i, quantity: i.quantity + 1 } : i);
       }
+      return [...prevCart, { ...product, quantity: 1 }];
     });
   };
 
   const handleBulkAddToCart = (products: (RoutineStep | AlternativeProduct)[]) => {
     setCart(prevCart => {
       const newCart = [...prevCart];
-      const cartMap: Map<string, CartItem> = new Map(newCart.map(item => [item.productId, item]));
-
-      products.forEach(productToAdd => {
-        const existingItem = cartMap.get(productToAdd.productId);
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          const newItem: CartItem = { ...productToAdd, quantity: 1 };
-          newCart.push(newItem);
-          cartMap.set(newItem.productId, newItem);
+      const map = new Map(newCart.map(i => [i.productId, i]));
+      products.forEach(p => {
+        const ex = map.get(p.productId);
+        if (ex) ex.quantity += 1;
+        else {
+          const item: CartItem = { ...p, quantity: 1 };
+          newCart.push(item);
+          map.set(item.productId, item);
         }
       });
-
       return newCart;
     });
   };
 
   const handleRemoveFromCart = (productId: string) => {
-    setCart(prevCart => prevCart.filter(item => item.productId !== productId));
+    setCart(prevCart => prevCart.filter(i => i.productId !== productId));
   };
 
   const handleUpdateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveFromCart(productId);
-    } else {
-      setCart(prevCart =>
-        prevCart.map(item =>
-          item.productId === productId ? { ...item, quantity } : item
-        )
-      );
-    }
+    if (quantity <= 0) return handleRemoveFromCart(productId);
+    setCart(prevCart => prevCart.map(i => i.productId === productId ? { ...i, quantity } : i));
   };
+
+  // Compact centered card with extra bottom gap
+  const StepCard: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <div className="w-full flex justify-center">
+      <div
+        className="
+          w-full max-w-3xl
+          bg-brand-surface rounded-xl shadow-soft border border-slate-200/60
+          p-4 sm:p-6
+          mt-4 mb-12   /* top small, bottom larger => card sits a bit higher */
+        "
+      >
+        {children}
+      </div>
+    </div>
+  );
 
   const renderStep = () => {
     switch (step) {
       case 1:
-        return (
-          <Step1PastProducts
-            onNext={handleNextStep}
-            pastProducts={pastProducts}
-            setPastProducts={setPastProducts}
-          />
-        );
+        return <Step1PastProducts onNext={handleNextStep} pastProducts={pastProducts} setPastProducts={setPastProducts} />;
       case 2:
         return (
           <Step2FaceAnalysis
@@ -177,7 +175,7 @@ const App: React.FC = () => {
     }
   };
 
-  const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
+  const totalCartItems = cart.reduce((t, i) => t + i.quantity, 0);
 
   return (
     <div className="w-full h-screen overflow-hidden lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
@@ -186,7 +184,7 @@ const App: React.FC = () => {
           className="fixed inset-0 bg-black/60 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
-        ></div>
+        />
       )}
 
       <Sidebar
@@ -198,7 +196,7 @@ const App: React.FC = () => {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      {/* Page scroll locked; header fixed; main has no scrolling */}
+      {/* Page scroll locked; header fixed */}
       <div className="w-full h-screen flex flex-col">
         <Header
           onReset={resetState}
@@ -207,16 +205,9 @@ const App: React.FC = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        <main className={`w-full flex-grow overflow-hidden flex items-start justify-center px-2 sm:px-3 md:px-4 pt-16 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
-          <div className="w-full h-full transition-all duration-300">
-            {step === 4 ? (
-              renderStep()
-            ) : (
-              <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
-                {renderStep()}
-              </div>
-            )}
-          </div>
+        {/* header 56px => pt-14 ; main NOT scrollable */}
+        <main className="w-full flex-grow overflow-hidden px-2 sm:px-3 md:px-4 pt-14 pb-6">
+          <StepCard>{renderStep()}</StepCard>
         </main>
       </div>
 

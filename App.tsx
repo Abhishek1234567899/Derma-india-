@@ -47,11 +47,7 @@ const App: React.FC = () => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.productId === product.productId);
       if (existingItem) {
-        return prevCart.map(item =>
-          item.productId === product.productId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+        return prevCart.map(item => item.productId === product.productId ? { ...item, quantity: item.quantity + 1 } : item);
       } else {
         return [...prevCart, { ...product, quantity: 1 }];
       }
@@ -62,18 +58,15 @@ const App: React.FC = () => {
     setCart(prevCart => {
       const newCart = [...prevCart];
       const cartMap: Map<string, CartItem> = new Map(newCart.map(item => [item.productId, item]));
-
       products.forEach(productToAdd => {
         const existingItem = cartMap.get(productToAdd.productId);
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
+        if (existingItem) existingItem.quantity += 1;
+        else {
           const newItem: CartItem = { ...productToAdd, quantity: 1 };
           newCart.push(newItem);
           cartMap.set(newItem.productId, newItem);
         }
       });
-      
       return newCart;
     });
   };
@@ -81,16 +74,11 @@ const App: React.FC = () => {
   const handleRemoveFromCart = (productId: string) => {
     setCart(prevCart => prevCart.filter(item => item.productId !== productId));
   };
-  
+
   const handleUpdateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveFromCart(productId);
-    } else {
-      setCart(prevCart =>
-        prevCart.map(item =>
-          item.productId === productId ? { ...item, quantity } : item
-        )
-      );
+    if (quantity <= 0) handleRemoveFromCart(productId);
+    else {
+      setCart(prevCart => prevCart.map(item => (item.productId === productId ? { ...item, quantity } : item)));
     }
   };
 
@@ -160,17 +148,17 @@ const App: React.FC = () => {
             skincareGoals={skincareGoals}
           />
         );
-       case 6:
+      case 6:
         return (
-            <ChatbotPage
-                analysisResult={analysisResult}
-                skincareGoals={skincareGoals}
-                recommendation={recommendation}
-                chatHistory={chatHistory}
-                setChatHistory={setChatHistory}
-                onBack={handlePrevStep}
-                onReset={resetState}
-            />
+          <ChatbotPage
+            analysisResult={analysisResult}
+            skincareGoals={skincareGoals}
+            recommendation={recommendation}
+            chatHistory={chatHistory}
+            setChatHistory={setChatHistory}
+            onBack={handlePrevStep}
+            onReset={resetState}
+          />
         );
       default:
         return <p>Invalid Step</p>;
@@ -180,42 +168,51 @@ const App: React.FC = () => {
   const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <div className="w-full h-screen overflow-hidden lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
-       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden" 
+    <div className="w-full h-full overflow-hidden lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
-        ></div>
+        />
       )}
-      <Sidebar 
-        currentStep={step} 
-        onReset={resetState} 
-        onCartClick={() => setIsCartOpen(true)} 
+
+      <Sidebar
+        currentStep={step}
+        onReset={resetState}
+        onCartClick={() => setIsCartOpen(true)}
         cartItemCount={totalCartItems}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
+
       <div className="w-full h-full relative">
-        <Header 
-            onReset={resetState} 
-            onCartClick={() => setIsCartOpen(true)} 
-            cartItemCount={totalCartItems} 
-            onMenuClick={() => setIsSidebarOpen(true)}
+        <Header
+          onReset={resetState}
+          onCartClick={() => setIsCartOpen(true)}
+          cartItemCount={totalCartItems}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className="absolute inset-0 overflow-y-hidden flex items-center justify-center px-2 sm:px-3 md:px-4 pt-16 sm:pt-20 md:pt-24">
-            <div className="w-full h-[80%] transition-all duration-300">
-                {step === 4 ? (
-                  renderStep()
-                ) : (
-                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
-                    {renderStep()}
-                  </div>
-                )}
-            </div>
+
+        {/* ✅ Only this region scrolls */}
+        <main
+          className="fixed left-0 right-0 bottom-0
+                     top-16 sm:top-20 md:top-24 lg:top-0
+                     overflow-y-auto px-2 sm:px-3 md:px-4"
+        >
+          <div className="w-full min-h-[calc(100%)] transition-all duration-300">
+            {step === 4 ? (
+              renderStep()
+            ) : (
+              <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 min-h-full flex flex-col border-t-4 border-brand-primary">
+                {renderStep()}
+              </div>
+            )}
+          </div>
         </main>
       </div>
-       <CartDrawer
+
+      <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         cartItems={cart}

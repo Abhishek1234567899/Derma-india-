@@ -214,6 +214,8 @@ export const generateRoutine = async (
         5.  **Disclaimer & Introduction:** Provide a standard disclaimer and a brief, encouraging introduction.
         6.  **Routine Title:** Create a short, powerful title for the plan.
         
+        **CRITICAL INSTRUCTION FOR PRODUCT CONSISTENCY:** To create a simple, effective, and economical routine, if a specific \`stepType\` (e.g., "Cleanser", "Moisturizer", "Serum") is necessary for both the AM and PM routines, you **MUST** recommend the *exact same product* (using the same \`productId\`) for that step in both routines. Do not recommend two different moisturizers or two different cleansers. For example, if a moisturizer is needed morning and night, use the same one for both. The only major exception is "Sunscreen," which should only ever appear in the AM routine.
+
         **Output Format:**
         Return a single JSON object. The root object must have a "title" key and a "recommendation" key. The "recommendation" object must contain "introduction", "am", "pm", "keyIngredients", "lifestyleTips", and "disclaimer". The "am" and "pm" arrays must follow the structure defined in Instruction #2. DO NOT recommend any products not in the provided catalog.
     `;

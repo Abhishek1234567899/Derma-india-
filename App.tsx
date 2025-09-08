@@ -1,13 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import {
-  PastProduct,
-  SkinConditionCategory,
-  SkincareRoutine,
-  ChatMessage,
-  FaceImage,
-  CartItem,
-  RoutineStep,
-  AlternativeProduct,
+  PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage, FaceImage,
+  CartItem, RoutineStep, AlternativeProduct
 } from './types';
 import Step1PastProducts from './components/Step1PastProducts';
 import Step2FaceAnalysis from './components/Step2FaceAnalysis';
@@ -33,170 +27,100 @@ const App: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const handleNextStep = () => setStep((prev) => prev + 1);
-  const handlePrevStep = () => setStep((prev) => prev - 1);
+  const handleNextStep = () => setStep(prev => prev + 1);
+  const handlePrevStep = () => setStep(prev => prev - 1);
 
   const resetState = useCallback(() => {
-    faceImages.forEach((image) => URL.revokeObjectURL(image.previewUrl));
-    setStep(1);
-    setPastProducts([]);
-    setFaceImages([]);
-    setAnalysisResult(null);
-    setSkincareGoals([]);
-    setRecommendation(null);
-    setChatHistory([]);
-    setRoutineTitle('');
-    setIsLoading(false);
-    setCart([]);
-    setIsCartOpen(false);
-    setIsSidebarOpen(false);
+    faceImages.forEach(img => URL.revokeObjectURL(img.previewUrl));
+    setStep(1); setPastProducts([]); setFaceImages([]); setAnalysisResult(null);
+    setSkincareGoals([]); setRecommendation(null); setChatHistory([]); setRoutineTitle('');
+    setIsLoading(false); setCart([]); setIsCartOpen(false); setIsSidebarOpen(false);
   }, [faceImages]);
 
-  const handleAddToCart = (product: RoutineStep | AlternativeProduct) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.productId === product.productId);
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.productId === product.productId ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
-      }
+  const handleAddToCart = (p: RoutineStep | AlternativeProduct) => {
+    setCart(prev => {
+      const ex = prev.find(i => i.productId === p.productId);
+      return ex ? prev.map(i => i.productId === p.productId ? { ...i, quantity: i.quantity + 1 } : i)
+                : [...prev, { ...p, quantity: 1 }];
     });
   };
 
   const handleBulkAddToCart = (products: (RoutineStep | AlternativeProduct)[]) => {
-    setCart((prevCart) => {
-      const newCart = [...prevCart];
-      const cartMap: Map<string, CartItem> = new Map(newCart.map((item) => [item.productId, item]));
-      products.forEach((productToAdd) => {
-        const existingItem = cartMap.get(productToAdd.productId);
-        if (existingItem) existingItem.quantity += 1;
-        else {
-          const newItem: CartItem = { ...productToAdd, quantity: 1 };
-          newCart.push(newItem);
-          cartMap.set(newItem.productId, newItem);
-        }
+    setCart(prev => {
+      const map = new Map(prev.map(i => [i.productId, i]));
+      const out = [...prev];
+      products.forEach(p => {
+        const ex = map.get(p.productId);
+        if (ex) ex.quantity += 1;
+        else { const it = { ...p, quantity: 1 }; out.push(it); map.set(it.productId, it); }
       });
-      return newCart;
+      return out;
     });
   };
 
-  const handleRemoveFromCart = (productId: string) => {
-    setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
-  };
-
-  const handleUpdateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) handleRemoveFromCart(productId);
-    else {
-      setCart((prevCart) =>
-        prevCart.map((item) => (item.productId === productId ? { ...item, quantity } : item))
-      );
-    }
-  };
+  const handleRemoveFromCart = (id: string) => setCart(prev => prev.filter(i => i.productId !== id));
+  const handleUpdateQuantity = (id: string, q: number) =>
+    q <= 0 ? handleRemoveFromCart(id)
+           : setCart(prev => prev.map(i => i.productId === id ? { ...i, quantity: q } : i));
 
   const renderStep = () => {
     switch (step) {
-      case 1:
-        return (
-          <Step1PastProducts
-            onNext={handleNextStep}
-            pastProducts={pastProducts}
-            setPastProducts={setPastProducts}
-          />
-        );
-      case 2:
-        return (
-          <Step2FaceAnalysis
-            onNext={handleNextStep}
-            onBack={handlePrevStep}
-            faceImages={faceImages}
-            setFaceImages={setFaceImages}
-            analysisResult={analysisResult}
-            setAnalysisResult={setAnalysisResult}
-            setIsLoading={setIsLoading}
-            isLoading={isLoading}
-          />
-        );
-      case 3:
-        return (
-          <Step3Goals
-            onBack={handlePrevStep}
-            analysisResult={analysisResult}
-            setSkincareGoals={setSkincareGoals}
-            skincareGoals={skincareGoals}
-            pastProducts={pastProducts}
-            setRecommendation={setRecommendation}
-            setRoutineTitle={setRoutineTitle}
-            setStep={setStep}
-            setIsLoading={setIsLoading}
-            isLoading={isLoading}
-          />
-        );
-      case 4:
-        return (
-          <Report
-            recommendation={recommendation}
-            routineTitle={routineTitle}
-            onReset={resetState}
-            onBack={handlePrevStep}
-            onNext={handleNextStep}
-            faceImages={faceImages}
-            analysisResult={analysisResult}
-            skincareGoals={skincareGoals}
-            onAddToCart={handleAddToCart}
-            onBulkAddToCart={handleBulkAddToCart}
-          />
-        );
-      case 5:
-        return (
-          <DoctorReport
-            recommendation={recommendation}
-            routineTitle={routineTitle}
-            onReset={resetState}
-            onBack={handlePrevStep}
-            onNext={handleNextStep}
-            faceImages={faceImages}
-            analysisResult={analysisResult}
-            skincareGoals={skincareGoals}
-          />
-        );
-      case 6:
-        return (
-          <ChatbotPage
-            analysisResult={analysisResult}
-            skincareGoals={skincareGoals}
-            recommendation={recommendation}
-            chatHistory={chatHistory}
-            setChatHistory={setChatHistory}
-            onBack={handlePrevStep}
-            onReset={resetState}
-          />
-        );
-      default:
-        return <p>Invalid Step</p>;
+      case 1: return <Step1PastProducts onNext={handleNextStep} pastProducts={pastProducts} setPastProducts={setPastProducts} />;
+      case 2: return (
+        <Step2FaceAnalysis
+          onNext={handleNextStep} onBack={handlePrevStep}
+          faceImages={faceImages} setFaceImages={setFaceImages}
+          analysisResult={analysisResult} setAnalysisResult={setAnalysisResult}
+          setIsLoading={setIsLoading} isLoading={isLoading}
+        />
+      );
+      case 3: return (
+        <Step3Goals
+          onBack={handlePrevStep} analysisResult={analysisResult}
+          setSkincareGoals={setSkincareGoals} skincareGoals={skincareGoals}
+          pastProducts={pastProducts} setRecommendation={setRecommendation}
+          setRoutineTitle={setRoutineTitle} setStep={setStep}
+          setIsLoading={setIsLoading} isLoading={isLoading}
+        />
+      );
+      case 4: return (
+        <Report
+          recommendation={recommendation} routineTitle={routineTitle}
+          onReset={resetState} onBack={handlePrevStep} onNext={handleNextStep}
+          faceImages={faceImages} analysisResult={analysisResult} skincareGoals={skincareGoals}
+          onAddToCart={handleAddToCart} onBulkAddToCart={handleBulkAddToCart}
+        />
+      );
+      case 5: return (
+        <DoctorReport
+          recommendation={recommendation} routineTitle={routineTitle}
+          onReset={resetState} onBack={handlePrevStep} onNext={handleNextStep}
+          faceImages={faceImages} analysisResult={analysisResult} skincareGoals={skincareGoals}
+        />
+      );
+      case 6: return (
+        <ChatbotPage
+          analysisResult={analysisResult} skincareGoals={skincareGoals} recommendation={recommendation}
+          chatHistory={chatHistory} setChatHistory={setChatHistory}
+          onBack={handlePrevStep} onReset={resetState}
+        />
+      );
+      default: return <p>Invalid Step</p>;
     }
   };
 
-  const totalCartItems = cart.reduce((total, item) => total + item.quantity, 0);
+  const totalCartItems = cart.reduce((t, i) => t + i.quantity, 0);
 
   return (
     <div className="w-full h-full overflow-hidden lg:grid lg:grid-cols-[350px,1fr] bg-brand-bg">
       {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-          aria-hidden="true"
-        />
+        <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} aria-hidden="true" />
       )}
 
       <Sidebar
-        currentStep={step}
-        onReset={resetState}
-        onCartClick={() => setIsCartOpen(true)}
-        cartItemCount={totalCartItems}
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+        currentStep={step} onReset={resetState}
+        onCartClick={() => setIsCartOpen(true)} cartItemCount={totalCartItems}
+        isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)}
       />
 
       <div className="w-full h-full relative">
@@ -207,21 +131,17 @@ const App: React.FC = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        {/* ✅ Scrollable content area fills header ke niche ka viewport */}
+        {/* Only this area scrolls. Offset = --header-h (0 on lg where header is hidden) */}
         <main
-          className="fixed left-0 right-0 bottom-0
-                     top-16 sm:top-20 md:top-24 lg:top-0
-                     overflow-y-auto px-2 sm:px-3 md:px-4"
+          className="fixed left-0 right-0 bottom-0 overflow-y-auto px-2 sm:px-3 md:px-4"
+          style={{ top: 'var(--header-h)' }}
         >
           {step === 4 ? (
             renderStep()
           ) : (
             <div
-              className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8
-                         min-h-[calc(100dvh-4rem)]
-                         sm:min-h-[calc(100dvh-5rem)]
-                         md:min-h-[calc(100dvh-6rem)]
-                         flex flex-col border-t-4 border-brand-primary"
+              className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 flex flex-col border-t-4 border-brand-primary"
+              style={{ minHeight: 'calc(100dvh - var(--header-h))' }}
             >
               {renderStep()}
             </div>
@@ -230,11 +150,8 @@ const App: React.FC = () => {
       </div>
 
       <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cart}
-        onRemove={handleRemoveFromCart}
-        onUpdateQuantity={handleUpdateQuantity}
+        isOpen={isCartOpen} onClose={() => setIsCartOpen(false)}
+        cartItems={cart} onRemove={handleRemoveFromCart} onUpdateQuantity={handleUpdateQuantity}
       />
     </div>
   );

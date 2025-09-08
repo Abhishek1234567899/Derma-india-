@@ -12,8 +12,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onReset, onCartClick, cartItemCount, onMenuClick }) => {
   return (
     <header
+      data-app-header
       className="w-full mx-auto p-4 flex items-center justify-between lg:hidden
-                 fixed top-0 left-0 right-0 h-16 sm:h-20 md:h-24
+                 fixed top-0 left-0 right-0
                  bg-white/90 backdrop-blur-md z-20 border-b border-slate-200"
     >
       <div className="flex items-center gap-2">

@@ -207,26 +207,25 @@ const App: React.FC = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        {/* ✅ Scrollable content area (fills screen below header) */}
+        {/* ✅ Scrollable content area fills header ke niche ka viewport */}
         <main
           className="fixed left-0 right-0 bottom-0
                      top-16 sm:top-20 md:top-24 lg:top-0
                      overflow-y-auto px-2 sm:px-3 md:px-4"
         >
-          <div
-            className="w-full min-h-[calc(100dvh-4rem)]
-                       sm:min-h-[calc(100dvh-5rem)]
-                       md:min-h-[calc(100dvh-6rem)]
-                       transition-all duration-300"
-          >
-            {step === 4 ? (
-              renderStep()
-            ) : (
-              <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
-                {renderStep()}
-              </div>
-            )}
-          </div>
+          {step === 4 ? (
+            renderStep()
+          ) : (
+            <div
+              className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8
+                         min-h-[calc(100dvh-4rem)]
+                         sm:min-h-[calc(100dvh-5rem)]
+                         md:min-h-[calc(100dvh-6rem)]
+                         flex flex-col border-t-4 border-brand-primary"
+            >
+              {renderStep()}
+            </div>
+          )}
         </main>
       </div>
 

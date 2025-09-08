@@ -47,50 +47,48 @@ const App: React.FC = () => {
   }, [faceImages]);
 
   const handleAddToCart = (product: RoutineStep | AlternativeProduct) => {
-    setCart(prevCart => {
-      const existing = prevCart.find(i => i.productId === product.productId);
-      if (existing) {
-        return prevCart.map(i => i.productId === product.productId ? { ...i, quantity: i.quantity + 1 } : i);
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
+    setCart(prev => {
+      const ex = prev.find(i => i.productId === product.productId);
+      return ex ? prev.map(i => i.productId === product.productId ? { ...i, quantity: i.quantity + 1 } : i)
+                : [...prev, { ...product, quantity: 1 }];
     });
   };
 
   const handleBulkAddToCart = (products: (RoutineStep | AlternativeProduct)[]) => {
-    setCart(prevCart => {
-      const newCart = [...prevCart];
-      const map = new Map(newCart.map(i => [i.productId, i]));
+    setCart(prev => {
+      const next = [...prev];
+      const map = new Map(next.map(i => [i.productId, i]));
       products.forEach(p => {
         const ex = map.get(p.productId);
         if (ex) ex.quantity += 1;
         else {
           const item: CartItem = { ...p, quantity: 1 };
-          newCart.push(item);
+          next.push(item);
           map.set(item.productId, item);
         }
       });
-      return newCart;
+      return next;
     });
   };
 
   const handleRemoveFromCart = (productId: string) => {
-    setCart(prevCart => prevCart.filter(i => i.productId !== productId));
+    setCart(prev => prev.filter(i => i.productId !== productId));
   };
 
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) return handleRemoveFromCart(productId);
-    setCart(prevCart => prevCart.map(i => i.productId === productId ? { ...i, quantity } : i));
+    setCart(prev => prev.map(i => i.productId === productId ? { ...i, quantity } : i));
   };
 
-  // Compact centered card with extra bottom gap
+  // Card: normal size (no fixed height), sirf bottom me zyada gap
   const StepCard: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="w-full flex justify-center">
       <div
         className="
           w-full max-w-3xl
-          bg-brand-surface rounded-xl shadow-soft border border-slate-200/60
-          p-4 sm:p-6
-          mt-4 mb-12   /* top small, bottom larger => card sits a bit higher */
+          bg-brand-surface rounded-2xl shadow-lifted border-t-4 border-brand-primary
+          p-6 sm:p-8
+          mt-4 mb-16   /* 👈 extra niche space */
         "
       >
         {children}
@@ -196,7 +194,7 @@ const App: React.FC = () => {
         onClose={() => setIsSidebarOpen(false)}
       />
 
-      {/* Page scroll locked; header fixed */}
+      {/* Page scroll locked; header fixed (48px) */}
       <div className="w-full h-screen flex flex-col">
         <Header
           onReset={resetState}
@@ -205,8 +203,8 @@ const App: React.FC = () => {
           onMenuClick={() => setIsSidebarOpen(true)}
         />
 
-        {/* header 56px => pt-14 ; main NOT scrollable */}
-        <main className="w-full flex-grow overflow-hidden px-2 sm:px-3 md:px-4 pt-14 pb-6">
+        {/* header 48px => pt-12 ; main NOT scrollable */}
+        <main className="w-full flex-grow overflow-hidden px-2 sm:px-3 md:px-4 pt-12 pb-6">
           <StepCard>{renderStep()}</StepCard>
         </main>
       </div>

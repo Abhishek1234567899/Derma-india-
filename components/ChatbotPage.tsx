@@ -46,7 +46,7 @@ const ChatbotPage: React.FC<ChatbotPageProps> = ({
         />
       </div>
 
-      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center mt-8 pt-6 border-t border-slate-200 gap-4">
+      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center mt-4 pt-4 border-t border-slate-200 gap-4">
         <Button onClick={onBack} variant="secondary" size="sm" className="gap-2">
           <ArrowLeftIcon className="w-4 h-4" />
           Back to Report

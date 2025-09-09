@@ -112,7 +112,7 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
         </Button>
       </div>
 
-      <div className="flex-grow overflow-y-auto bg-white rounded-2xl border-2 border-slate-200 p-4 sm:p-6 lg:p-8 shadow-inner-soft">
+      <div className="flex-grow overflow-y-auto">
         <div id="doctor-report-content" className="space-y-8">
           <div className="text-center border-b pb-4">
             <h1 className="text-2xl font-bold text-slate-800">{routineTitle}</h1>
@@ -208,7 +208,7 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
         </div>
       </div>
 
-      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center mt-8 pt-6 border-t border-slate-200 gap-4">
+      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center mt-4 pt-4 border-t border-slate-200 gap-4">
         <Button onClick={onBack} variant="secondary" size="sm" className="gap-2">
             <ArrowLeftIcon className="w-4 h-4" />
             Back to Plan

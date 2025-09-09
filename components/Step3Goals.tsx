@@ -253,7 +253,7 @@ const Step3Goals: React.FC<Step3Props> = ({
                 </div>
             </div>
 
-            <div className="flex-shrink-0 flex justify-between mt-8 pt-6 border-t border-slate-200">
+            <div className="flex-shrink-0 flex justify-between mt-4 pt-4 border-t border-slate-200">
                 <Button onClick={onBack} variant="secondary" size="sm" disabled={isLoading}>Back</Button>
                 <Button onClick={handleGenerateRoutine} disabled={isGenerateDisabled} size="sm">
                 {isLoading ? 'Generating...' : 'Generate My Plan'}

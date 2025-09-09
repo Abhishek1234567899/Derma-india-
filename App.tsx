@@ -1,5 +1,3 @@
-
-
 import React, { useState, useCallback } from 'react';
 import { PastProduct, SkinConditionCategory, SkincareRoutine, ChatMessage, FaceImage, CartItem, RoutineStep, AlternativeProduct } from './types';
 import Step1PastProducts from './components/Step1PastProducts';
@@ -198,22 +196,16 @@ const App: React.FC = () => {
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
-      <div className="w-full h-screen flex flex-col">
+      <div className="w-full h-full flex flex-col">
         <Header 
             onReset={resetState} 
             onCartClick={() => setIsCartOpen(true)} 
             cartItemCount={totalCartItems} 
             onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className={`w-full flex-grow overflow-y-auto flex items-start justify-center px-4 sm:px-6 md:px-8 pt-6 lg:pt-12 ${step === 2 ? 'pb-4 sm:pb-6' : 'pb-8 sm:pb-12'}`}>
-            <div className="w-full h-full transition-all duration-300">
-                {step === 4 ? (
-                  renderStep()
-                ) : (
-                  <div className="bg-brand-surface rounded-2xl shadow-lifted p-6 sm:p-8 h-full flex flex-col border-t-4 border-brand-primary">
-                    {renderStep()}
-                  </div>
-                )}
+        <main className="flex-1 p-2 min-h-0">
+            <div className="bg-brand-surface rounded-2xl shadow-lifted p-4 sm:p-6 h-full flex flex-col border-t-4 border-brand-primary">
+              {renderStep()}
             </div>
         </main>
       </div>

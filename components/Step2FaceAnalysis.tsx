@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState, useEffect } from 'react';
 import { SkinConditionCategory, FaceImage } from '../types';
 import Button from './common/Button';
@@ -121,7 +120,7 @@ const Step2FaceAnalysis: React.FC<Step2Props> = ({
   const activeImage = faceImages[activeImageIndex];
   
   return (
-    <div className="animate-fade-in-up h-full flex flex-col w-full">
+    <div className="animate-fade-in-up h-full flex flex-col w-full pb-2">
         <div className="flex-grow overflow-y-auto pr-2 -mr-2">
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
               <span className="text-brand-primary">Step 2:</span> AI Face Analysis

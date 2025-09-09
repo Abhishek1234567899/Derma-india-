@@ -98,7 +98,7 @@ const DoctorReport: React.FC<DoctorReportProps> = ({
 
 
   return (
-    <div className="animate-fade-in-up h-full flex flex-col w-full">
+    <div className="animate-fade-in-up h-full flex flex-col w-full pb-2">
       <div className="flex items-center justify-between mb-4 flex-shrink-0">
         <div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">

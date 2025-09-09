@@ -191,7 +191,7 @@ const Step3Goals: React.FC<Step3Props> = ({
   return (
      <>
         {isLoading && <LoadingOverlay title="Crafting your personalized plan..." tips={LOADING_TIPS} />}
-        <div className="animate-fade-in-up h-full flex flex-col w-full">
+        <div className="animate-fade-in-up h-full flex flex-col w-full pb-2">
             <div className="flex-grow overflow-y-auto pr-2 -mr-2">
                 <div>
                     <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">

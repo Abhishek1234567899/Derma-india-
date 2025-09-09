@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { SkinConditionCategory, ChatMessage, SkincareRoutine } from '../types';
 import Button from './common/Button';
@@ -26,7 +24,7 @@ const ChatbotPage: React.FC<ChatbotPageProps> = ({
   setChatHistory,
 }) => {
   return (
-    <div className="animate-fade-in-up h-full flex flex-col w-full">
+    <div className="animate-fade-in-up h-full flex flex-col w-full pb-2">
       <div className="flex-shrink-0">
         <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
           <span className="text-brand-primary">Step 6:</span> AI Assistant

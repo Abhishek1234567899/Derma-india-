@@ -290,7 +290,7 @@ const Report: React.FC<ReportProps> = ({
   };
 
   return (
-    <div className="animate-fade-in-up h-full flex flex-col w-full pb-2">
+    <div className="animate-fade-in-up h-full flex flex-col w-full pb-4">
       <div id="report-content-wrapper" className="flex-grow overflow-y-auto">
           <div id="report-content" className="space-y-12">
               <div className="text-center">

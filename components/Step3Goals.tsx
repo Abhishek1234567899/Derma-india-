@@ -197,7 +197,7 @@ const Step3Goals: React.FC<Step3Props> = ({
                     <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
                         <span className="text-brand-primary">Step 3:</span> Select Your Skincare Goals
                     </h2>
-                    <p className="text-sm sm:text-base text-slate-600 mb-6 sm:mb-8">Choose what you'd like to focus on. We've highlighted some suggestions based on your skin analysis.</p>
+                    <p className="text-sm sm:text-base text-slate-600 mb-4">Choose what you'd like to focus on. We've highlighted some suggestions based on your skin analysis.</p>
 
                     <div className="grid grid-cols-4 gap-2 sm:gap-3">
                     {SKINCARE_GOALS.map(goal => {
@@ -253,7 +253,7 @@ const Step3Goals: React.FC<Step3Props> = ({
                 </div>
             </div>
 
-            <div className="flex-shrink-0 flex justify-between mt-4 pt-4 border-t border-slate-200">
+            <div className="flex-shrink-0 flex justify-between pt-2 border-t border-slate-200">
                 <Button onClick={onBack} variant="secondary" size="sm" disabled={isLoading}>Back</Button>
                 <Button onClick={handleGenerateRoutine} disabled={isGenerateDisabled} size="sm">
                 {isLoading ? 'Generating...' : 'Generate My Plan'}

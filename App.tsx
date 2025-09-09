@@ -203,8 +203,8 @@ const App: React.FC = () => {
             cartItemCount={totalCartItems} 
             onMenuClick={() => setIsSidebarOpen(true)}
         />
-        <main className="flex-1 p-2 min-h-0">
-            <div className="bg-brand-surface rounded-2xl shadow-lifted p-4 sm:p-6 h-full flex flex-col border-t-4 border-brand-primary">
+        <main className="flex-1 p-1 sm:p-2 min-h-0">
+            <div className="bg-brand-surface rounded-2xl shadow-lifted p-2 sm:p-4 h-full flex flex-col border-t-4 border-brand-primary">
               {renderStep()}
             </div>
         </main>

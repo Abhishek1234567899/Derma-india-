@@ -31,7 +31,7 @@ const ChatbotPage: React.FC<ChatbotPageProps> = ({
         <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
           <span className="text-brand-primary">Step 6:</span> AI Assistant
         </h2>
-        <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
+        <p className="text-sm sm:text-base text-slate-600 mb-2">
           Have questions about your new routine? Ask our AI assistant for more details about the products or why they were chosen for you.
         </p>
       </div>
@@ -46,7 +46,7 @@ const ChatbotPage: React.FC<ChatbotPageProps> = ({
         />
       </div>
 
-      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center mt-4 pt-4 border-t border-slate-200 gap-4">
+      <div className="flex-shrink-0 flex flex-wrap justify-center sm:justify-between items-center pt-2 border-t border-slate-200 gap-2">
         <Button onClick={onBack} variant="secondary" size="sm" className="gap-2">
           <ArrowLeftIcon className="w-4 h-4" />
           Back to Report

@@ -126,7 +126,7 @@ const Step2FaceAnalysis: React.FC<Step2Props> = ({
           <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2">
               <span className="text-brand-primary">Step 2:</span> AI Face Analysis
           </h2>
-           <div className="rounded-lg bg-red-50 p-4 text-[10px] sm:text-xs text-red-800 border border-red-200 mb-6 sm:mb-8 flex items-start gap-3" role="alert">
+           <div className="rounded-lg bg-red-50 p-4 text-[10px] sm:text-xs text-red-800 border border-red-200 mb-4 flex items-start gap-3" role="alert">
               <TriangleAlertIcon className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
               <p className="leading-relaxed">
                   For best results, upload clear, well-lit photos of your face — including front, left, and right views. Adding multiple images will help ensure more accurate results.
@@ -333,7 +333,7 @@ const Step2FaceAnalysis: React.FC<Step2Props> = ({
             </div>
           )}
         </div>
-        <div className="flex-shrink-0 flex justify-between mt-4 pt-4 border-t border-slate-200">
+        <div className="flex-shrink-0 flex justify-between pt-2 border-t border-slate-200">
           <Button onClick={onBack} variant="secondary" size="sm">Back</Button>
           <Button onClick={onNext} disabled={!analysisResult} size="sm">Next: Set My Goals</Button>
         </div>

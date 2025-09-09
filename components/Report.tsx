@@ -387,7 +387,7 @@ const Report: React.FC<ReportProps> = ({
           </div>
       </div>
       
-      <div className="flex-shrink-0 flex justify-center items-center flex-wrap gap-4 pt-4 border-t border-slate-200">
+      <div className="flex-shrink-0 flex justify-center items-center flex-wrap gap-2 pt-2 border-t border-slate-200">
         <Button onClick={onBack} variant="secondary" size="sm" className="gap-2">
             <ArrowLeftIcon className="w-4 h-4" />
             Back to Goals

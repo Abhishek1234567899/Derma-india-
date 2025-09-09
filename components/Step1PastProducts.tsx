@@ -107,9 +107,9 @@ const Step1PastProducts: React.FC<Step1Props> = ({ onNext, pastProducts, setPast
           <h2 className="text-xl sm:text-2xl font-extrabold text-brand-text-main mb-2">
               <span className="text-brand-primary">Step 1:</span> Past Product Usage
           </h2>
-          <p className="text-sm sm:text-base text-brand-text-muted mb-6 sm:mb-8">Tell us about products you've used. This helps us avoid recommending things that didn't work for you.</p>
+          <p className="text-sm sm:text-base text-brand-text-muted mb-4">Tell us about products you've used. This helps us avoid recommending things that didn't work for you.</p>
 
-          <div className="mb-8 flex flex-col gap-6">
+          <div className="mb-4 flex flex-col gap-4">
             <div>
               <Select
                 id="common-product-select"
@@ -256,7 +256,7 @@ const Step1PastProducts: React.FC<Step1Props> = ({ onNext, pastProducts, setPast
           )}
         </div>
 
-        <div className="flex-shrink-0 flex justify-between mt-4 pt-4 border-t border-slate-200">
+        <div className="flex-shrink-0 flex justify-between pt-2 border-t border-slate-200">
           <Button onClick={onNext} variant="secondary" size="sm">
             Skip
           </Button>
